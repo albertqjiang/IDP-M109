@@ -29,46 +29,19 @@ int main () {
                 exit(1);     // error, finish
 	}
 
-	 while (1) {
-		cout << "Enter the motor number or command:" << endl;
-		int motor_num;
-		int sp = 127;
-		cin >> motor_num;
-		// cin >> speed;
-		switch (motor_num){
-			case 1:
-				rlink.command(MOTOR_1_GO, sp);
-				break;
-			case 2:
-				rlink.command(MOTOR_2_GO, sp);
-				break;
-			case 3:
-				rlink.command(MOTOR_3_GO, sp);
-				break;
-			case 4:
-				rlink.command(MOTOR_4_GO, sp);
-				break;
-			case -1:
-				rlink.command(MOTOR_1_GO, reversed_sign(sp));
-				break;
-			case -2:
-				rlink.command(MOTOR_2_GO, reversed_sign(sp));
-				break;
-			case -3:
-				rlink.command(MOTOR_3_GO, reversed_sign(sp));
-				break;
-			case -4:
-				rlink.command(MOTOR_4_GO, reversed_sign(sp));
-				break;
-			case 0:
-				rlink.command(MOTOR_1_GO, 0);
-				rlink.command(MOTOR_2_GO, 0);
-				rlink.command(MOTOR_3_GO, 0);
-				rlink.command(MOTOR_4_GO, 0);
-				break;
-			default:
-				return 0;
+	 while (1) {// Main loop
+		// Collectiion process
+		forward_with_lf(lf, 1);
+		collect();
+		detect();
+		for (int i = 0; i < 5; i++) {
+			forward_with_lf(lf, 0);
+			collect();
+			detect();
 		}
+
+		// delivering process
+		
 	} 
 	/* while (1) {
 		cout<<"sensors read input"<<endl;
