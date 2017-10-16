@@ -1,27 +1,19 @@
-<?xml version="1.0" encoding="UTF-8"?><project name="Untitled Gantt Project" company="" webLink="http://" view-date="2017-10-11" view-index="0" gantt-divider-location="476" resource-divider-location="300" version="2.8.5" locale="en_GB">
+<?xml version="1.0" encoding="UTF-8"?><project name="Untitled Gantt Project" company="" webLink="http://" view-date="2017-10-11" view-index="0" gantt-divider-location="476" resource-divider-location="300" version="2.0">
     <description/>
-    <view zooming-state="default:2" id="gantt-chart">
-        <field id="tpd3" name="Name" width="226" order="0"/>
-        <field id="tpd4" name="Begin date" width="123" order="1"/>
-        <field id="tpd5" name="End date" width="123" order="2"/>
-        <timeline><![CDATA[10,12]]></timeline>
-    </view>
-    <view id="resource-table">
-        <field id="0" name="Name" width="210" order="0"/>
-        <field id="1" name="Default role" width="86" order="1"/>
-    </view>
+    <view zooming-state="default:2"/>
     <!-- -->
     <calendars>
         <day-types>
             <day-type id="0"/>
             <day-type id="1"/>
-            <default-week id="1" name="default" sun="1" mon="0" tue="0" wed="0" thu="0" fri="0" sat="1"/>
-            <only-show-weekends value="false"/>
-            <overriden-day-types/>
-            <days/>
+            <calendar id="1" name="default">
+                <default-week sun="1" mon="0" tue="0" wed="0" thu="0" fri="0" sat="1"/>
+                <overriden-day-types/>
+                <days/>
+            </calendar>
         </day-types>
     </calendars>
-    <tasks empty-milestones="true">
+    <tasks color="#8cb6ce">
         <taskproperties>
             <taskproperty id="tpd0" name="type" type="default" valuetype="icon"/>
             <taskproperty id="tpd1" name="priority" type="default" valuetype="icon"/>
@@ -34,18 +26,23 @@
             <taskproperty id="tpd8" name="coordinator" type="default" valuetype="text"/>
             <taskproperty id="tpd9" name="predecessorsr" type="default" valuetype="text"/>
         </taskproperties>
-        <task id="0" name="Mechanical Drawings" color="#8cb6ce" meeting="false" start="2017-10-12" duration="6" complete="60" expand="true"/>
-        <task id="4" name="Electrical Circuit Designs" color="#8cb6ce" meeting="false" start="2017-10-12" duration="6" complete="45" expand="true"/>
-        <task id="6" name="Software Modular APIs" color="#8cb6ce" meeting="false" start="2017-10-12" duration="6" complete="55" expand="true"/>
-        <task id="8" name="Mechincal Construction" color="#8cb6ce" meeting="false" start="2017-10-16" duration="8" complete="0" expand="true"/>
-        <task id="10" name="Electirical Construction" color="#8cb6ce" meeting="false" start="2017-10-16" duration="8" complete="0" expand="true"/>
-        <task id="12" name="Software Construction and Test" color="#8cb6ce" meeting="false" start="2017-10-16" duration="8" complete="0" expand="true"/>
-        <task id="15" name="Integration" color="#8cb6ce" meeting="false" start="2017-10-19" duration="7" complete="0" expand="true"/>
-        <task id="20" name="Testing" color="#8cb6ce" meeting="false" start="2017-10-19" duration="12" complete="0" expand="true"/>
+        <task id="0" name="Mechanical Drawings" color="#8cb6ce" meeting="false" start="2017-10-12" duration="5" complete="60" priority="1" expand="true"/>
+        <task id="4" name="Electrical Circuit Designs" color="#8cb6ce" meeting="false" start="2017-10-12" duration="5" complete="45" priority="1" expand="true"/>
+        <task id="6" name="Software Modular APIs" color="#8cb6ce" meeting="false" start="2017-10-12" duration="5" complete="55" priority="1" expand="true"/>
+        <task id="8" name="Mechincal Construction" color="#8cb6ce" meeting="false" start="2017-10-16" duration="8" complete="0" priority="1" expand="true"/>
+        <task id="10" name="Electirical Construction" color="#8cb6ce" meeting="false" start="2017-10-16" duration="8" complete="0" priority="1" expand="true"/>
+        <task id="12" name="Software Construction and Test" color="#8cb6ce" meeting="false" start="2017-10-16" duration="8" complete="0" priority="1" expand="true"/>
+        <task id="15" name="Integration" color="#8cb6ce" meeting="false" start="2017-10-19" duration="7" complete="0" priority="1" expand="true"/>
+        <task id="20" name="Testing" color="#8cb6ce" meeting="false" start="2017-10-19" duration="12" complete="0" priority="1" expand="true"/>
     </tasks>
     <resources/>
     <allocations/>
     <vacations/>
+    <taskdisplaycolumns>
+        <displaycolumn property-id="tpd3" order="0" width="157"/>
+        <displaycolumn property-id="tpd4" order="1" width="35"/>
+        <displaycolumn property-id="tpd5" order="2" width="33"/>
+    </taskdisplaycolumns>
     <previous/>
     <roles roleset-name="Default"/>
     <roles roleset-name="SoftwareDevelopment"/>
