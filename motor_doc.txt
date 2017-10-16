@@ -1,0 +1,4 @@
+Motor port 1: Red
+Motor port 2: Green
+Motor port 3: Blue
+Motor port 4: Yellow
