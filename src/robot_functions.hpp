@@ -10,6 +10,7 @@ using namespace std;
 #include "line_follower.hpp"
 //#include "led_control.hpp"
 #include "arm_control.hpp"
+#include "detection.hpp"
 
 
 
@@ -24,6 +25,10 @@ class custom_robot_link:
 	public:
 	line_follower lf;
 	mobility_control mc;
+	arm_control ac;
+	//led_control lc;
+	detection det;
+	
 	friend int reversed_sign(const int& motor_speed);
 	void forward_with_lf(line_follower lf, int pass_cross); //This function will move the robot forward until it has passed pass_cross crosses and meets the next cross
 };

@@ -10,8 +10,9 @@ using namespace std;
 
 class mobility_control {
 	public:
-		void forward();
+		void forward(const double time); // move forward for a certain period of time
 		void stop();
+		void turn(const int turning_code); // turn left if turning_code is -1, right if it is 1
 };  
 
 
