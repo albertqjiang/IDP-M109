@@ -28,8 +28,8 @@ int main () {
 		cout << "Test failed (bad value returned)" << endl;
                 exit(1);     // error, finish
 	}
-
-	 while (1) {// Main loop
+/*
+	 while (1) {// Main loopexpected
 		// Collectiion process
 		forward_with_lf(lf, 1);
 		collect();
@@ -42,7 +42,8 @@ int main () {
 
 		// delivering process
 		
-	} 
+	}
+*/
 	/* while (1) {
 		cout<<"sensors read input"<<endl;
 		cout<<rlink.request(READ_PORT_0)<<endl;

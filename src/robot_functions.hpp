@@ -2,14 +2,16 @@
 #define ROBOT_FUNCTIONS
 
 #include <iostream>
+using namespace std;
 #include <robot_instr.h>
 #include <robot_link.h>
 #include <robot_delay.h>
 #include "mobility_control.hpp"
 #include "line_follower.hpp"
-#include "led_control.hpp"
+//#include "led_control.hpp"
 #include "arm_control.hpp"
-using namespace std;
+
+
 
 int reversed_sign(const int& motor_speed);
 
@@ -21,6 +23,7 @@ class custom_robot_link:
 	void forward();
 	public:
 	line_follower lf;
+	mobility_control mc;
 	friend int reversed_sign(const int& motor_speed);
 	void forward_with_lf(line_follower lf, int pass_cross); //This function will move the robot forward until it has passed pass_cross crosses and meets the next cross
 };

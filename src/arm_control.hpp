@@ -11,4 +11,6 @@ using namespace std;
 class arm_control {
 	public:
 		void collect();
-}
+};
+
+#endif

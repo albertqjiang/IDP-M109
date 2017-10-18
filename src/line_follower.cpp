@@ -6,14 +6,10 @@
 
 using namespace std;
 
-bool[4] line_following_output(const int port_input) {
-	bool sensors[4] = {False, False, False, False};
-	sensors[0] = port_input % 2 > 0;
-	int place_holder = port_input / 2;
-	sensors[1] = place_holder % 2 > 0;
-	place_holder = place_holder / 2;
-	sensors[2] = place_holder % 2 > 0;
-	place_holder = place_holder / 2;
-	sensors[3] = place_holder % 2 > 0;
-	return sensors;
+void line_follower::line_following_output(const int port_input) {
+	sensor_readings[0] = (0b0001 & port_input);
+	sensor_readings[1] = (0b0010 & port_input);
+	sensor_readings[2] = (0b0100 & port_input);
+	sensor_readings[3] = (0b1000 & port_input);
+	
 }
