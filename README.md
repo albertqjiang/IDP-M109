@@ -124,6 +124,6 @@ The most significant bit represents the state of the LDR, which detects color. 0
 - led_control - 50 lines
 
 ## A list of three sub-systems operations
-1. Line following > 0.75m
-2. Turning at a corner
-3. Grabbing a ball
+1. Line following > 0.75m with an initial offset of 20 degrees
+2. Turning at a corner and line following > 30 cm, with the start point 30 cm away from the corner
+3. Starting from the start point, going to the second ball aligning the arm (if existing) with the ball and activate the actuator (if existing)
