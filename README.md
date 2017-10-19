@@ -1,3 +1,14 @@
+# IDP M109 Software Documentation
+
+## Setup and Compilation Instructions
+1. Login to the Linux (CentOS) system on a workstation in EIETL.
+2. Put all source code in one directory (e.g. ```src```), and name the main program (the file that contains the main() function) ```main.cpp```.
+3. Select ```main.cpp``` and all header files (```*.hpp``` and ```*.h```, if any) in the directory.
+
+![main_algorithm](img/flowchart.png)
+![modules](img/modules.png)
+![rlink_class](img/rlink_class.png)
+
 How to login to the microcomputer:
 
 1. Open terminal
