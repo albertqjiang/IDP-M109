@@ -30,7 +30,7 @@ class custom_robot_link:
 	detection det;
 	
 	friend int reversed_sign(const int& motor_speed);
-	void forward_with_lf(line_follower lf, int pass_cross); //This function will move the robot forward until it has passed pass_cross crosses and meets the next cross
+
 };
 
 #endif

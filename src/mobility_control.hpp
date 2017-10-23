@@ -10,11 +10,15 @@ using namespace std;
 #include "line_follower.hpp"
 
 class mobility_control {
+	
 	public:
-		void forward(const double time); // move forward for a certain period of time
-		void stop();
+		void forward(custom_robot_link* rlink); // move forward
+		void stop(custom_robot_link* rlink);
 		void turn(const int turning_code); // turn left if turning_code is -1, right if it is 1
-		void forward_with_lf(line_follower lf, int cross_to_pass);
+		void forward_with_lf(custom_robot_link* rlink, line_follower lf, int cross_to_pass);
+			//This function will move the robot forward until it has passed pass_cross crosses and meets the next cross
+		void move_till_cross(custom_robot_link* rlink, line_follower lf);
+		void move_across_cross(custom_robot_link* rlink, line_follower lf);
 };  
 
 
