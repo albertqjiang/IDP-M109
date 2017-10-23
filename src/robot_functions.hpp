@@ -16,12 +16,8 @@ using namespace std;
 
 int reversed_sign(const int& motor_speed);
 
-class custom_robot_link:
-	public robot_link
-{
-	int speed1;  // Calibrated forward speed for wheel 1 (positive)
-	int speed2;  // Calibrated forward speed for wheel 2 (positive)
-	void forward();
+class custom_robot_link {
+	robot_link rlink;
 	public:
 	line_follower lf;
 	mobility_control mc;

@@ -7,9 +7,14 @@ using namespace std;
 #include <robot_instr.h>
 #include <robot_link.h>
 #include <robot_delay.h>
+#include "robot_functions.hpp"
 
 class arm_control {
+	robot_link* rlink;
 	public:
+		arm_control(robot_link* rl){
+			rlink = rl;
+		}
 		void collect();
 };
 

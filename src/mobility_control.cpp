@@ -9,18 +9,18 @@ using namespace std;
 
 int speed = 127;
 
-void mobility_control::forward(custom_robot_link* rlink) {
+void mobility_control::forward(robot_link* rlink) {
 	
 	rlink.command(MOTOR_1_GO, speed);
 	rlink.command(MOTOR_2_GO, speed);
 }
 
-void mobility_control::stop(custom_robot_link* rlink) {
+void mobility_control::stop(robot_link* rlink) {
 	rlink.command(MOTOR_1_GO, 0);
 	rlink.command(MOTOR_2_GO, 0);
 }
 
-void mobility_control::forward_with_lf(custom_robot_link* rlink, line_follower lf, int cross_to_pass) {
+void mobility_control::forward_with_lf(robot_link* rlink, line_follower lf, int cross_to_pass) {
 	for (int i = 0; i < cross_to_pass; i ++) {
 		move_till_cross(rlink, lf);
 		move_across_cross(rlink, lf);
@@ -29,7 +29,7 @@ void mobility_control::forward_with_lf(custom_robot_link* rlink, line_follower l
 
 }
 
-void move_till_cross(custom_robot_link* rlink, line_follower lf) {
+void move_till_cross(robot_link* rlink, line_follower lf) {
 	lf.line_following_output(rlink.request(READ_INPUT_7));
 	while (!(lf.sensor_readings[0] && lf.sensor_readings[1])) {
 		// Unless both front sensors detect white, repeat doing this
@@ -53,7 +53,7 @@ void move_till_cross(custom_robot_link* rlink, line_follower lf) {
 	}
 }
 
-void move_across_cross(custom_robot_link* rlink, line_follower lf) {
+void move_across_cross(robot_link* rlink, line_follower lf) {
 	lf.line_following_output(rlink.request(READ_INPUT_7));
 	while (lf.sensor_readings[0] || lf.sensor_readings[1]) {
 		if ((!lf.sensor_readings[0]) && (lf.sensor_readings[1])) {
