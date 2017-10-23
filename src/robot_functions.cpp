@@ -15,3 +15,6 @@ void custom_robot_link::forward() {
 	command(MOTOR_1_GO, reversed_sign(speed1));
 }
 
+void custom_robot_link::forward_with_lf(line_follower lf, int pass_cross) {
+	
+}

@@ -6,13 +6,17 @@
 
 using namespace std;
 
-void forward() {
+void mobility_control::forward() {
 	int speed = 127;
 	rlink.command(MOTOR_1_GO, speed);
 	rlink.command(MOTOR_2_GO, speed);
 }
 
-void stop() {
+void mobility_control::stop() {
 	rlink.command(MOTOR_1_GO, 0);
 	rlink.command(MOTOR_2_GO, 0);
+}
+
+void mobility_control::forward_with_lf(line_follower lf, int cross_to_pass) {
+	
 }
