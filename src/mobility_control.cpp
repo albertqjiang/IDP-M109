@@ -21,7 +21,11 @@ void mobility_control::stop(custom_robot_link* rlink) {
 }
 
 void mobility_control::forward_with_lf(custom_robot_link* rlink, line_follower lf, int cross_to_pass) {
-	
+	for (int i = 0; i < cross_to_pass; i ++) {
+		move_till_cross(rlink, lf);
+		move_across_cross(rlink, lf);
+	}
+	move_till_cross(rlink, lf);
 
 }
 
