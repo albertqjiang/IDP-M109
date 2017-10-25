@@ -32,7 +32,11 @@ custom_robot_link::custom_robot_link() {
     } else {
         cout << "Test failed (bad value returned)" << endl;
         exit(1);  // error, finish
-    }
+	}
+	
+	// Initialize all subclasses
+	lf.initialize(&rlink);
+	mc.initialize(&rlink, &lf);
 }
 
 void custom_robot_link::forward() {
