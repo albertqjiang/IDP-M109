@@ -1,11 +1,25 @@
 # IDP M109 Software Documentation
 
+## Current Progress
+
+```C++
+class custom_robot_link {
+    robot_link rlink;
+	public:
+	line_follower lf;
+	mobility_control mc;
+	arm_control ac;
+	//led_control lc;
+	detection det;
+}
+```
+
 ## Setup and Compilation Instructions
 
 ### How to compile the source code
 1. Login to the Linux (CentOS) system on a workstation in EIETL.
 2. Put all source code in one directory (e.g. ```src```), and name the main program (the file that contains the main() function) ```main.cpp```.
-3. Drag ```main.cpp``` in the directory to the ```IDPgeany-arm``` icon on the desktop. If there is no such icon, click ```Applications - CUED 2nd Year - Start 1BRobot``` at the top left corner of the screen.
+3. Drag ```main.cpp``` **together with all relevant cpp files** in the directory to the ```IDPgeany-arm``` icon on the desktop. If there is no such icon, click ```Applications - CUED 2nd Year - Start 1BRobot``` at the top left corner of the screen.
 4. A ```Makefile``` file is generated, and a geany window should pop up. To compile the source, click ```Build - Make``` or press Shift + F9 in the geany window. Alternatively, just type ```make``` in the terminal under the source code directory.
 
 ### How to upload the compiled program to the microcomputer:
