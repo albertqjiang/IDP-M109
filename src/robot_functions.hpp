@@ -18,7 +18,8 @@ class custom_robot_link {
     robot_link rlink;
 
    public:
-    custom_robot_link();  // Ctor
+	custom_robot_link();  // Ctor
+	int request(int instr);
     line_follower lf;
     mobility_control mc;
     arm_control ac;
