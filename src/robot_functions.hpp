@@ -20,11 +20,13 @@ class custom_robot_link {
    public:
 	custom_robot_link();  // Ctor
 	int request(int instr);
-    line_follower lf;
-    mobility_control mc;
-    arm_control ac;
-    //led_control lc;
-    detection det;
+	// TODO: write constructors for all these classes,
+	// and initialize them in custom_robot_link constructor
+    line_follower* lf;
+    mobility_control* mc;
+    arm_control* ac;
+    //led_control* lc;
+    detection* det;
 
     friend int reversed_sign(const int& motor_speed);
 };
