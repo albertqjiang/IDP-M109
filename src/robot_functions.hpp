@@ -12,21 +12,20 @@ using namespace std;
 #include "arm_control.hpp"
 #include "detection.hpp"
 
-
-
 int reversed_sign(const int& motor_speed);
 
 class custom_robot_link {
-	robot_link rlink;
-	public:
-	line_follower lf;
-	mobility_control mc;
-	arm_control ac;
-	//led_control lc;
-	detection det;
-	
-	friend int reversed_sign(const int& motor_speed);
+    robot_link rlink;
 
+   public:
+    custom_robot_link();  // Ctor
+    line_follower lf;
+    mobility_control mc;
+    arm_control ac;
+    //led_control lc;
+    detection det;
+
+    friend int reversed_sign(const int& motor_speed);
 };
 
 #endif
