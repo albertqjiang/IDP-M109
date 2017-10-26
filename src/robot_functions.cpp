@@ -6,6 +6,8 @@
 #include "robot_functions.hpp"
 using namespace std;
 
+#define ROBOT_NUM 7       // The id number (see below)
+
 int reversed_sign(const int& motor_speed) {
     // cout << motor_speed << " " << (0b10000000 ^ motor_speed) << endl;
     return 0b10000000 ^ motor_speed;
