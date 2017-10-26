@@ -16,7 +16,7 @@ void mobility_control::stop() {
 }
 
 void mobility_control::move_till_cross() {
-    lf->line_following_output(rlink->request(READ_INPUT_7));
+    lf->line_following_output(rlink->request(READ_PORT_5));
     while (!(lf->sensor_readings[0] && lf->sensor_readings[1])) {
         // Unless both front sensors detect white, repeat doing this
         if ((!lf->sensor_readings[0]) && (!lf->sensor_readings[1])) {
@@ -38,12 +38,12 @@ void mobility_control::move_till_cross() {
             // rlink->command(BOTH_MOTORS_GO_OPPOSITE, reversed_sign(slow_speed));
             steer('L');
         }
-        lf->line_following_output(rlink->request(READ_INPUT_7));
+        lf->line_following_output(rlink->request(READ_PORT_5));
     }
 }
 
 void mobility_control::move_across_cross() {
-    lf->line_following_output(rlink->request(READ_INPUT_7));
+    lf->line_following_output(rlink->request(READ_PORT_5));
     while (lf->sensor_readings[0] || lf->sensor_readings[1]) {
         if ((lf->sensor_readings[0]) && (lf->sensor_readings[1])) {
             // Go forward
@@ -61,7 +61,7 @@ void mobility_control::move_across_cross() {
             // rlink->command(BOTH_MOTORS_GO_OPPOSITE, reversed_sign(slow_speed));
             steer('R');
         }
-        lf->line_following_output(rlink->request(READ_INPUT_7));
+        lf->line_following_output(rlink->request(READ_PORT_5));
     }
 }
 

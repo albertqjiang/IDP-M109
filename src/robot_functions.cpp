@@ -38,7 +38,7 @@ custom_robot_link::custom_robot_link() {
 
     // Initialize all subclasses
     lf = new line_follower(&rlink);
-    mc = new mobility_control(&rlink, &lf);
+    mc = new mobility_control(&rlink, lf);
     ac = new arm_control(&rlink);
     // TODO: Initialize more subclasses
 }
