@@ -37,9 +37,9 @@ custom_robot_link::custom_robot_link() {
     }
 
     // Initialize all subclasses
-    lf = new line_follower(rlink);
-    mc = new mobility_control(rlink, lf);
-    ac = new arm_control;
+    lf = new line_follower(&rlink);
+    mc = new mobility_control(&rlink, &lf);
+    ac = new arm_control(&rlink);
     // TODO: Initialize more subclasses
 }
 
@@ -51,9 +51,4 @@ custom_robot_link::~custom_robot_link() {
 
 int custom_robot_link::request(request_instruction instr) {
     return rlink.request(instr);
-}
-
-void custom_robot_link::forward() {
-    command(MOTOR_2_GO, speed2);
-    command(MOTOR_1_GO, reversed_sign(speed1));
 }
