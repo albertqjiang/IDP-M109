@@ -6,6 +6,15 @@ using namespace std;
 #include <robot_instr.h>
 #include <robot_link.h>
 #include <robot_delay.h>
+
+// Forward declarations
+class custom_robot_link;
+class line_follower;
+class mobility_control;
+class arm_control;
+// class led_control;
+// class detection;
+
 #include "mobility_control.hpp"
 #include "line_follower.hpp"
 //#include "led_control.hpp"
