@@ -32,21 +32,18 @@ custom_robot_link::custom_robot_link() {
     } else {
         cout << "Test failed (bad value returned)" << endl;
         exit(1);  // error, finish
-	}
-	
-	// Initialize all subclasses
-	lf.initialize(&rlink);
-	mc.initialize(&rlink, &lf);
+    }
+
+    // Initialize all subclasses
+    lf.initialize(&rlink);
+    mc.initialize(&rlink, &lf);
 }
 
 int custom_robot_link::request(int instr) {
-	return rlink.request(instr);
+    return rlink.request(instr);
 }
 
 void custom_robot_link::forward() {
     command(MOTOR_2_GO, speed2);
     command(MOTOR_1_GO, reversed_sign(speed1));
-}
-
-void custom_robot_link::forward_with_lf(line_follower lf, int pass_cross) {
 }
