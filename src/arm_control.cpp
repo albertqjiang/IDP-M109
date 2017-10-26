@@ -7,6 +7,6 @@ using namespace std;
 #include "arm_control.hpp"
 #include "robot_functions.hpp"
 
-arm_control::arm_control(robot_link* rl){
-    rlink = rl;
+void arm_control::collect() {
+
 }

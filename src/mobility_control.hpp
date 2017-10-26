@@ -17,20 +17,20 @@ class mobility_control {
     int slow_speed = 24;          //Turning speed to be calibrated
 
    public:
-    void initialize(robot_link* rl, line_follower* line_f) {
+    mobility_control(robot_link* rl, line_follower* line_f) {
         rlink = rl;
         lf = line_f;
     }
     void forward();  // move forward
     void stop();
-	void turn(char direction);  // 'l' 'L' for left, 'r' 'R' for right
-	void steer(char direction);  // 'l' 'L' for left, 'r' 'R' for right
+    void turn(char direction);   // 'l' 'L' for left, 'r' 'R' for right
+    void steer(char direction);  // 'l' 'L' for left, 'r' 'R' for right
     void forward_with_lf(int cross_to_pass);
     //This function will move the robot forward until it has passed pass_cross crosses and meets the next cross
     void move_till_cross();
-	void move_across_cross();
-	void demo_start_and_align_ball(int ball_num);
-	friend int reversed_sign(const int& motor_speed);  // TODO: make sure this line compiles
+    void move_across_cross();
+    void demo_start_and_align_ball(int ball_num);
+    friend int reversed_sign(const int& motor_speed);  // TODO: make sure this line compiles
 };
 
 #endif  // MOBILITY_CONTROL_HPP

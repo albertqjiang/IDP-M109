@@ -6,7 +6,7 @@
 #include "robot_functions.hpp"
 using namespace std;
 
-#define ROBOT_NUM 7       // The id number (see below)
+#define ROBOT_NUM 7  // The id number (see below)
 
 int reversed_sign(const int& motor_speed) {
     // cout << motor_speed << " " << (0b10000000 ^ motor_speed) << endl;
@@ -37,11 +37,19 @@ custom_robot_link::custom_robot_link() {
     }
 
     // Initialize all subclasses
-    lf.initialize(&rlink);
-    mc.initialize(&rlink, &lf);
+    lf = new line_follower(rlink);
+    mc = new mobility_control(rlink, lf);
+    ac = new arm_control;
+    // TODO: Initialize more subclasses
 }
 
-int custom_robot_link::request(int instr) {
+custom_robot_link::~custom_robot_link() {
+    delete lf;
+    delete mc;
+    delete ac;
+}
+
+int custom_robot_link::request(request_instruction instr) {
     return rlink.request(instr);
 }
 

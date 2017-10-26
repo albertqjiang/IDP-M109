@@ -12,7 +12,7 @@ using namespace std;
 class line_follower {
 	robot_link* rlink;
 	public:
-	void initialize(robot_link* rl) {
+	void line_follower(robot_link* rl) {
 		rlink = rl;
 	}
 	bool sensor_readings[4];

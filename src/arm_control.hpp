@@ -10,10 +10,13 @@ using namespace std;
 #include "robot_functions.hpp"
 
 class arm_control {
-	robot_link* rlink;
-	public:
-		arm_control(robot_link* rl);
-		void collect();
+    robot_link* rlink;
+
+   public:
+    arm_control(robot_link* rl) {
+        rlink = rl;
+    }
+    void collect();
 };
 
 #endif
