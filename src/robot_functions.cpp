@@ -40,6 +40,7 @@ custom_robot_link::custom_robot_link() {
     lf = new line_follower(&rlink);
     mc = new mobility_control(&rlink, lf);
     ac = new arm_control(&rlink);
+    dc = new detection;
     // TODO: Initialize more subclasses
 }
 
@@ -47,6 +48,7 @@ custom_robot_link::~custom_robot_link() {
     delete lf;
     delete mc;
     delete ac;
+    delete dc;
 }
 
 int custom_robot_link::request(request_instruction instr) {
