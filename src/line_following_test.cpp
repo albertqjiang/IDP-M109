@@ -16,16 +16,15 @@ int main() {
 		rlink.lf->line_following_output(rlink.request(READ_PORT_5));
 		bool* lf_sensors = rlink.lf->sensor_readings;
 		if (lf_sensors[0] && lf_sensors[1]) { //both front sensors read black
-			rlink.mc->stop();
+			rlink.mc->forward();
 		}
 		else if ((!lf_sensors[0]) && lf_sensors[1]) {
-			rlink.mc->steer('L');
-		}
-		else if (lf_sensors[0] && (!lf_sensors[1])) {
 			rlink.mc->steer('R');
 		}
+		else if (lf_sensors[0] && (!lf_sensors[1])) {
+			rlink.mc->steer('L');
+		}
 		else {
-			delay(500);
 			rlink.mc->forward();
 		}
 		
