@@ -12,7 +12,9 @@ custom_robot_link rlink;  // Our customized robot_link class
 double PARAMETER_TO_CALIBRATE = 1.0;
 
 int main() {
+	
 	while(1) {
+		rlink.mc->turn('l'); break;
 		rlink.lf->line_following_output(rlink.request(READ_PORT_5));
 		bool* lf_sensors = rlink.lf->sensor_readings;
 		if (lf_sensors[0] && lf_sensors[1]) { //both front sensors read black
@@ -25,9 +27,10 @@ int main() {
 			rlink.mc->steer('L');
 		}
 		else {
-			rlink.mc->forward();
+			rlink.mc->stop();
 		}
 		
 	}
 	return 0;
 }
+

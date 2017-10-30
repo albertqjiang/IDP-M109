@@ -12,15 +12,14 @@ using namespace std;
 class mobility_control {
     robot_link* rlink;
     line_follower* lf;
-    const int turning_ms = 1000;  // Turning time to be calibrated
-    int speed = 127;              // Marching speed
-    int slow_speed = 24;          //Turning speed to be calibrated
+    int turning_ms;
+    int walking_ms;
+    int speed;
+    int slow_speed;
+    int turning_speed;
 
    public:
-    mobility_control(robot_link* rl, line_follower* line_f) {
-        rlink = rl;
-        lf = line_f;
-    }
+    mobility_control(robot_link* rl, line_follower* line_f);
     void forward();  // move forward
     void stop();
     void turn(char direction);   // 'l' 'L' for left, 'r' 'R' for right

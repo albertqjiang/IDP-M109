@@ -1,0 +1,7 @@
+# Compiled files
+*.o
+*.arm
+
+# Other stuff
+final_mech/
+Thumbs.db

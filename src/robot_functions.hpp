@@ -19,7 +19,7 @@ class detection;
 #include "line_follower.hpp"
 //#include "led_control.hpp"
 #include "arm_control.hpp"
-// #include "detection.hpp"
+#include "detection.hpp"
 
 int reversed_sign(const int& motor_speed);
 
@@ -36,7 +36,7 @@ class custom_robot_link {
     mobility_control* mc;
     arm_control* ac;
     //led_control* lc;
-    detection* det;
+    detection* dc;
 
     friend int reversed_sign(const int& motor_speed);
 };

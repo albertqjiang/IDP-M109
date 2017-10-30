@@ -7,6 +7,16 @@
 
 using namespace std;
 
+mobility_control::mobility_control(robot_link* rl, line_follower* line_f) {
+        rlink = rl;
+        lf = line_f;
+        turning_ms = 2000;  // Turning time to be calibrated
+		walking_ms = 1000;  // Walking time to be calibrated
+		speed = 127;        // Marching speed
+		slow_speed = 24;    // Steering speed to be calibrated
+		turning_speed = 100;// Turning speed to be calibrated
+}
+
 void mobility_control::forward() {
     rlink->command(BOTH_MOTORS_GO_OPPOSITE, speed);
 }
@@ -16,7 +26,24 @@ void mobility_control::stop() {
 }
 
 void mobility_control::move_till_cross() {
-    lf->line_following_output(rlink->request(READ_PORT_5));
+	while (1) {
+		lf->line_following_output(rlink->request(READ_PORT_5));
+		bool* lf_sensors = lf->sensor_readings;
+		if (lf_sensors[0] && lf_sensors[1]) { //both front sensors read black
+			forward();
+		}
+		else if ((!lf_sensors[0]) && lf_sensors[1]) {
+			steer('R');
+		}
+		else if (lf_sensors[0] && (!lf_sensors[1])) {
+			steer('L');
+		}
+		else {
+			break;
+		}
+	}
+	
+    /* lf->line_following_output(rlink->request(READ_PORT_5));
     while (!(lf->sensor_readings[0] && lf->sensor_readings[1])) {
         // Unless both front sensors detect white, repeat doing this
         if ((!lf->sensor_readings[0]) && (!lf->sensor_readings[1])) {
@@ -39,7 +66,7 @@ void mobility_control::move_till_cross() {
             steer('L');
         }
         lf->line_following_output(rlink->request(READ_PORT_5));
-    }
+    }*/
 }
 
 void mobility_control::move_across_cross() {
@@ -76,12 +103,16 @@ void mobility_control::forward_with_lf(int cross_to_pass) {
 void mobility_control::turn(char direction) {
     if (direction == 'l' || direction == 'L') {
         // Turn left
-        rlink->command(BOTH_MOTORS_GO_SAME, slow_speed);
+        forward();
+        delay(walking_ms);
+        rlink->command(BOTH_MOTORS_GO_SAME, turning_speed);
         delay(turning_ms);
         rlink->command(BOTH_MOTORS_GO_SAME, 0);
     } else if (direction == 'r' || direction == 'R') {
         // Turn right
-        rlink->command(BOTH_MOTORS_GO_SAME, reversed_sign(slow_speed));
+        forward();
+        delay(walking_ms);
+        rlink->command(BOTH_MOTORS_GO_SAME, reversed_sign(turning_speed));
         delay(turning_ms);
         rlink->command(BOTH_MOTORS_GO_SAME, 0);
     }
@@ -93,6 +124,7 @@ void mobility_control::steer(char direction) {
         rlink->command(BOTH_MOTORS_GO_SAME, slow_speed);
     } else if (direction == 'r' || direction == 'R') {
         // Steer right
+        // cout << "R " << slow_speed << endl;
         rlink->command(BOTH_MOTORS_GO_SAME, reversed_sign(slow_speed));
     }
 }
