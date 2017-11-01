@@ -12,6 +12,39 @@ custom_robot_link rlink;  // Our customized robot_link class
 double PARAMETER_TO_CALIBRATE = 1.0;
 
 int main() {
+
+	// Read analog input
+	/* while(1) {
+	cout<<"Analog input"<<endl;
+	cout<<rlink.request (ADC0)<<endl;
+	cout<<rlink.request (ADC1)<<endl;
+	cout<<rlink.request (ADC2)<<endl;
+	cout<<rlink.request (ADC3)<<endl;
+	cout<<rlink.request (ADC4)<<endl;
+	cout<<rlink.request (ADC5)<<endl;
+	cout<<rlink.request (ADC6)<<endl;
+	cout<<rlink.request (ADC7)<<endl;
+	delay(1000);
+	} */	
+
+	// Go around the table
+	rlink.mc->forward_with_lf(1);
+	for (int i = 0; i <10; i++) {
+	rlink.mc->forward_with_lf(6);
+	rlink.mc->turn('L');
+	rlink.mc->forward_with_lf(2);
+	rlink.mc->turn('L');
+	rlink.mc->forward_with_lf(1);
+	rlink.mc->turn('R');
+	rlink.mc->forward_with_lf(1);
+	rlink.mc->turn('L');
+	rlink.mc->forward_with_lf(4);
+	rlink.mc->turn('L');
+	rlink.mc->forward_with_lf(4);
+	rlink.mc->turn('L');
+	}
+	return 0; 
+	
 	// TODO: The rotation motor can't be calibrated due to crazy resistance forces of the wires.
 	// TODO: need softer wires and better wire arrangement
 	// Actuator testing

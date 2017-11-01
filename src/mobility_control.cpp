@@ -10,8 +10,8 @@ using namespace std;
 mobility_control::mobility_control(robot_link* rl, line_follower* line_f) {
         rlink = rl;
         lf = line_f;
-        turning_ms = 1800;  // Turning time to be calibrated
-	walking_ms = 1400;  // Walking time to be calibrated
+        turning_ms = 1730;  // Turning time to be calibrated
+	walking_ms = 1250;  // Walking time to be calibrated
 	speed = 96;        // Marching speed
 	slow_speed = 24;    // Steering speed to be calibrated
 	turning_speed = 100;// Turning speed to be calibrated
@@ -26,21 +26,27 @@ void mobility_control::stop() {
 }
 
 void mobility_control::move_till_cross() {
-	while (1) {
+	while(1) {
 		lf->line_following_output(rlink->request(READ_PORT_5));
 		bool* lf_sensors = lf->sensor_readings;
-		if (lf_sensors[0] && lf_sensors[1]) { //both front sensors read black
+		if ((!lf_sensors[0]) && (!lf_sensors[1])) { //both front sensors read black
 			forward();
+			cout << "F" << endl;
 		}
 		else if ((!lf_sensors[0]) && lf_sensors[1]) {
 			steer('R');
+			cout << "R" << endl;
 		}
 		else if (lf_sensors[0] && (!lf_sensors[1])) {
 			steer('L');
+			cout << "L" << endl;
 		}
 		else {
+			cout << "STOP" << endl;
+			stop();
 			break;
 		}
+		
 	}
 	
     /* lf->line_following_output(rlink->request(READ_PORT_5));
@@ -95,7 +101,8 @@ void mobility_control::move_across_cross() {
 void mobility_control::forward_with_lf(int cross_to_pass) {
     for (int i = 0; i < cross_to_pass; i++) {
         move_till_cross();
-        move_across_cross();
+	forward();
+	delay(285);
     }
     // move_till_cross();
 }
