@@ -24,9 +24,10 @@ class detection;
 int reversed_sign(const int& motor_speed);
 
 class custom_robot_link {
-    robot_link rlink;
+    
 
    public:
+robot_link rlink;
     custom_robot_link();   // Ctor
     ~custom_robot_link();  // Dtor
     int request(request_instruction instr);

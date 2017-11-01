@@ -13,9 +13,9 @@ class arm_control {
     robot_link* rlink;
 
    public:
-    arm_control(robot_link* rl) {
-        rlink = rl;
-    }
+    arm_control(robot_link* rl);
+    void extend();
+    void contract();
     void collect();
 };
 

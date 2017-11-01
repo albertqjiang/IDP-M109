@@ -10,11 +10,11 @@ using namespace std;
 mobility_control::mobility_control(robot_link* rl, line_follower* line_f) {
         rlink = rl;
         lf = line_f;
-        turning_ms = 2000;  // Turning time to be calibrated
-		walking_ms = 1000;  // Walking time to be calibrated
-		speed = 127;        // Marching speed
-		slow_speed = 24;    // Steering speed to be calibrated
-		turning_speed = 100;// Turning speed to be calibrated
+        turning_ms = 1800;  // Turning time to be calibrated
+	walking_ms = 1400;  // Walking time to be calibrated
+	speed = 96;        // Marching speed
+	slow_speed = 24;    // Steering speed to be calibrated
+	turning_speed = 100;// Turning speed to be calibrated
 }
 
 void mobility_control::forward() {
