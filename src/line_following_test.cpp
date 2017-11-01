@@ -12,22 +12,26 @@ custom_robot_link rlink;  // Our customized robot_link class
 double PARAMETER_TO_CALIBRATE = 1.0;
 
 int main() {
+	// TODO: The rotation motor can't be calibrated due to crazy resistance forces of the wires.
+	// TODO: need softer wires and better wire arrangement
 	// Actuator testing
 	while (1) {
+		int to_slot_0 = 1250;
 		rlink.ac->extend();
 		delay(2000);
+		rlink.ac->grab();
+		delay(2000);
+		rlink.ac->contract();
+		delay(2000);
+		rlink.ac->right(to_slot_0); // Turn right for to_slot_0 ms.
+		delay(2000);
 		rlink.ac->extend();
-		cout << "Stop\n";
-	}
-	return 0;
-	
-	// Arm motor testing
-	int ss = 80;
-	while (1) {
-		rlink.rlink.command(MOTOR_3_GO, ss);
-		delay(500);
-		rlink.rlink.command(MOTOR_3_GO, 0);
-		ss = reversed_sign(ss);
+		delay(2000);
+		rlink.ac->release();
+		delay(2000);
+		rlink.ac->contract();
+		delay(2000);
+		rlink.ac->left(to_slot_0); // Turn left for to_slot_0 ms.
 		cout << "Stop\n";
 	}
 	return 0;

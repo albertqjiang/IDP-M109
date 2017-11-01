@@ -11,12 +11,22 @@ using namespace std;
 
 class arm_control {
     robot_link* rlink;
+    int rot_speed;
 
    public:
     arm_control(robot_link* rl);
+
+    // Actuator control
     void extend();
     void contract();
-    void collect();
+    void grab();
+    void release();
+
+    // Rotation control
+    void right(int ms);
+    void left(int ms);
+
+    friend int reversed_sign(const int& motor_speed);
 };
 
 #endif

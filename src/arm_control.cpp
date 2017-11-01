@@ -9,30 +9,41 @@ using namespace std;
 
 arm_control::arm_control(robot_link* rl) {
         rlink = rl;
-}
-
-void arm_control::collect() {
-
+	rot_speed = 80;
 }
 
 void arm_control::extend() {
-    rlink->command(WRITE_PORT_0, 127);
-	rlink->command(WRITE_PORT_1, 127);
-rlink->command(WRITE_PORT_2, 127);
-rlink->command(WRITE_PORT_3, 127);
-rlink->command(WRITE_PORT_4, 127);
-rlink->command(WRITE_PORT_6, 127);
-rlink->command(WRITE_PORT_7, 127);
+	// Set bit 0 to 0
+	rlink->command(WRITE_PORT_1, 0b11111110 & rlink->request(READ_PORT_1));
 	cout << "Extend\n";
 }
 
 void arm_control::contract() {
-	rlink->command(WRITE_PORT_0, 0);
-	rlink->command(WRITE_PORT_1, 0);
-rlink->command(WRITE_PORT_2, 0);
-rlink->command(WRITE_PORT_3, 0);
-rlink->command(WRITE_PORT_4, 0);
-rlink->command(WRITE_PORT_6, 0);
-rlink->command(WRITE_PORT_7, 0);
-cout << "Contract\n";
+	// Set bit 0 to 1
+	rlink->command(WRITE_PORT_1, 0b00000001 | rlink->request(READ_PORT_1));
+	cout << "Contract\n";
+}
+
+void arm_control::grab() {
+	// Set bit 1 to 0
+	rlink->command(WRITE_PORT_1, 0b11111101 & rlink->request(READ_PORT_1));
+	cout << "Grab\n";
+}
+
+void arm_control::release() {
+	// Set bit 1 to 1
+	rlink->command(WRITE_PORT_1, 0b00000010 | rlink->request(READ_PORT_1));
+	cout << "Release\n";
+}
+
+void arm_control::right(int ms) {
+	rlink->command(MOTOR_3_GO, rot_speed);
+	delay(ms);
+	rlink->command(MOTOR_3_GO, 0);
+}
+
+void arm_control::left(int ms) {
+	rlink->command(MOTOR_3_GO, reversed_sign(rot_speed));
+	delay(ms);
+	rlink->command(MOTOR_3_GO, 0);
 }
