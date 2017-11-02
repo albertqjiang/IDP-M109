@@ -102,7 +102,7 @@ void mobility_control::forward_with_lf(int cross_to_pass) {
     for (int i = 0; i < cross_to_pass; i++) {
         move_till_cross();
 	forward();
-	delay(285);
+	delay(220);
     }
     // move_till_cross();
 }

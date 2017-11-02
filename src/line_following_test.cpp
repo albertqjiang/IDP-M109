@@ -28,6 +28,7 @@ int main() {
 	} */	
 
 	// Go around the table
+	/*
 	rlink.mc->forward_with_lf(1);
 	for (int i = 0; i <10; i++) {
 	rlink.mc->forward_with_lf(6);
@@ -44,28 +45,22 @@ int main() {
 	rlink.mc->turn('L');
 	}
 	return 0; 
+	*/
 	
 	// TODO: The rotation motor can't be calibrated due to crazy resistance forces of the wires.
 	// TODO: need softer wires and better wire arrangement
 	// Actuator testing
+	rlink.ac->contract();
+	rlink.ac->release();
+	delay(2000);
 	while (1) {
-		int to_slot_0 = 1250;
-		rlink.ac->extend();
-		delay(2000);
-		rlink.ac->grab();
-		delay(2000);
-		rlink.ac->contract();
-		delay(2000);
+		int to_slot_0 = 1500;
+		
 		rlink.ac->right(to_slot_0); // Turn right for to_slot_0 ms.
-		delay(2000);
-		rlink.ac->extend();
-		delay(2000);
-		rlink.ac->release();
-		delay(2000);
-		rlink.ac->contract();
 		delay(2000);
 		rlink.ac->left(to_slot_0); // Turn left for to_slot_0 ms.
 		cout << "Stop\n";
+		delay(2000);
 	}
 	return 0;
 
