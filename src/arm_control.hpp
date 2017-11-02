@@ -12,6 +12,8 @@ using namespace std;
 class arm_control {
     robot_link* rlink;
     int rot_speed;
+    int precision_speed;
+    bool read_paper_sensor();
 
    public:
     arm_control(robot_link* rl);
@@ -25,6 +27,10 @@ class arm_control {
     // Rotation control
     void right(int ms);
     void left(int ms);
+
+    // Precision rotation
+    void goto_left_mark();
+    void goto_right_mark();
 
     friend int reversed_sign(const int& motor_speed);
 };

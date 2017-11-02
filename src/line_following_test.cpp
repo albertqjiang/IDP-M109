@@ -12,6 +12,33 @@ custom_robot_link rlink;  // Our customized robot_link class
 double PARAMETER_TO_CALIBRATE = 1.0;
 
 int main() {
+	// Arm rotor testing
+	while (1) {
+		cout << "Go right" << endl;
+		rlink.ac->goto_right_mark();
+		delay(1000);
+		rlink.ac->goto_right_mark();
+		delay(1000);
+		rlink.ac->goto_right_mark();
+		delay(1000);
+		rlink.ac->goto_right_mark();
+		delay(1000);
+		rlink.ac->goto_right_mark();
+		delay(1000);
+		
+		cout << "Go left" << endl;
+		rlink.ac->goto_left_mark();
+		delay(1000);
+		rlink.ac->goto_left_mark();
+		delay(1000);
+		rlink.ac->goto_left_mark();
+		delay(1000);
+		rlink.ac->goto_left_mark();
+		delay(1000);
+		rlink.ac->goto_left_mark();
+		delay(1000);
+	}
+	return 0;
 
 	// Read analog input
 	/* while(1) {

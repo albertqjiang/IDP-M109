@@ -10,6 +10,7 @@ using namespace std;
 arm_control::arm_control(robot_link* rl) {
         rlink = rl;
 	rot_speed = 80;
+	precision_speed = 120;
 }
 
 void arm_control::extend() {
@@ -47,3 +48,26 @@ void arm_control::left(int ms) {
 	delay(ms);
 	rlink->command(MOTOR_3_GO, 0);
 }
+
+bool arm_control::read_paper_sensor() {
+	return (0b0100 & rlink->request(READ_PORT_5));
+}
+
+void arm_control::goto_left_mark() {
+	rlink->command(MOTOR_3_GO, reversed_sign(precision_speed));
+	delay(100);  // Wait for arm to leave the current mark;
+	while (read_paper_sensor())
+		// Wait until the next mark is reached
+		;
+	rlink->command(MOTOR_3_GO, 0);
+}
+
+void arm_control::goto_right_mark() {
+	rlink->command(MOTOR_3_GO, precision_speed);
+	delay(100);  // Wait for arm to leave the current mark;
+	while (read_paper_sensor())
+		// Wait until the next mark is reached
+		;
+	rlink->command(MOTOR_3_GO, 0);
+}
+
