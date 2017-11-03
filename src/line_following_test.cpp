@@ -13,7 +13,7 @@ double PARAMETER_TO_CALIBRATE = 1.0;
 
 int main() {
 	// Arm rotor testing
-	while (1) {
+	/* while (1) {
 		cout << "Go right" << endl;
 		rlink.ac->goto_right_mark();
 		delay(1000);
@@ -38,21 +38,38 @@ int main() {
 		rlink.ac->goto_left_mark();
 		delay(1000);
 	}
-	return 0;
+	return 0;*/
+	/*while(1) {
+		//rlink.mc->turn('l'); break;
+		rlink.lf->line_following_output(rlink.request(READ_PORT_5));
+		bool* lf_sensors = rlink.lf->sensor_readings;
+		int rota_speed = 75 + 128;
+		if (!lf_sensors[2]) { //both front sensors read black
+			rlink.rlink.command(MOTOR_3_GO, rota_speed);
+		}
+		else {
+			rlink.rlink.command(MOTOR_3_GO, rota_speed-128);
+			delay(500);
+			break;
+		}
+		
+		
+	}
+	return 0;*/
 
 	// Read analog input
-	/* while(1) {
-	cout<<"Analog input"<<endl;
-	cout<<rlink.request (ADC0)<<endl;
-	cout<<rlink.request (ADC1)<<endl;
-	cout<<rlink.request (ADC2)<<endl;
-	cout<<rlink.request (ADC3)<<endl;
-	cout<<rlink.request (ADC4)<<endl;
-	cout<<rlink.request (ADC5)<<endl;
-	cout<<rlink.request (ADC6)<<endl;
+	while(1) {
+	// cout<<"Analog input"<<endl;
+	cout<<rlink.request (ADC0)<<"\t";
+	cout<<rlink.request (ADC1)<<"\t";
+	cout<<rlink.request (ADC2)<<"\t";
+	cout<<rlink.request (ADC3)<<"\t";
+	cout<<rlink.request (ADC4)<<"\t";
+	cout<<rlink.request (ADC5)<<"\t";
+	cout<<rlink.request (ADC6)<<"\t";
 	cout<<rlink.request (ADC7)<<endl;
-	delay(1000);
-	} */	
+	delay(100);
+	}
 
 	// Go around the table
 	/*
