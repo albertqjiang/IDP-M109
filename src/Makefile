@@ -14,3 +14,6 @@ detection.o: detection.cpp
 	 g++ -ansi -Wall -g -I/export/teach/1BRobot -c detection.cpp
 arm_control.o: arm_control.cpp arm_control.hpp robot_functions.hpp
 	 g++ -ansi -Wall -g -I/export/teach/1BRobot -c arm_control.cpp
+
+clean:
+	/usr/bin/rm -rf *.o

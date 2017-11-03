@@ -12,8 +12,10 @@ using namespace std;
 class arm_control {
     robot_link* rlink;
     int rot_speed;
-    int precision_speed;
-    bool read_paper_sensor();
+    int precision_speed;  // Speed for precision arm rotation control
+    int leave_delay;	  // Delay for the arm to leave the current position
+    int actuator_delay;   // Delay for the actuator to finish one operation
+    bool read_paper_sensor(); // Read the IR sensor of the arm
 
    public:
     arm_control(robot_link* rl);

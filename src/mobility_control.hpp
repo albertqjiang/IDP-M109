@@ -23,11 +23,14 @@ class mobility_control {
     void forward();  // move forward
     void stop();
     void turn(char direction);   // 'l' 'L' for left, 'r' 'R' for right
+    void turn_to_left_sensors(char direction);   // align the left sensors
     void steer(char direction);  // 'l' 'L' for left, 'r' 'R' for right
     void forward_with_lf(int cross_to_pass);
+    void forward_with_ls(int cross_to_pass);
     //This function will move the robot forward until it has passed pass_cross crosses and meets the next cross
     void move_till_cross();
     void move_across_cross();
+    void left_sandwich();
     void demo_start_and_align_ball(int ball_num);
     friend int reversed_sign(const int& motor_speed);  // TODO: make sure this line compiles
 };
