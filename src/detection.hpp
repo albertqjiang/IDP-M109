@@ -13,10 +13,7 @@ class detection {
 
    public:
     detection(robot_link* rl);  // Ctor
-    int classify() {
-        // return a number indicating a kind of golf ball
-        return -1;  // return -1 if weight detected is 0
-    }
+    int classify();
 };
 
 #endif  // DETECTION_HPP
