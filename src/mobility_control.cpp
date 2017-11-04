@@ -66,54 +66,6 @@ void mobility_control::move_till_cross() {
             break;
         }
     }
-
-    /* lf->line_following_output(rlink->request(READ_PORT_5));
-    while (!(lf->sensor_readings[0] && lf->sensor_readings[1])) {
-        // Unless both front sensors detect white, repeat doing this
-        if ((!lf->sensor_readings[0]) && (!lf->sensor_readings[1])) {
-            // Both front sensors are black
-            // rlink->command(BOTH_MOTORS_GO_SAME, speed);
-            // TODO: failure recovery
-        }
-
-        else if ((!lf->sensor_readings[0]) && (lf->sensor_readings[1])) {
-            // Left motor is black and right motor is white
-            // Steer right
-            // rlink->command(BOTH_MOTORS_GO_OPPOSITE, slow_speed);
-            steer('R');
-        }
-
-        else if ((lf->sensor_readings[0]) && (!lf->sensor_readings[1])) {
-            // Left motor is white and right motor is black
-            // Steer left
-            // rlink->command(BOTH_MOTORS_GO_OPPOSITE, reversed_sign(slow_speed));
-            steer('L');
-        }
-        lf->line_following_output(rlink->request(READ_PORT_5));
-    }*/
-}
-
-void mobility_control::move_across_cross() {
-    lf->line_following_output(rlink->request(READ_PORT_5));
-    while (lf->sensor_readings[0] || lf->sensor_readings[1]) {
-        if ((lf->sensor_readings[0]) && (lf->sensor_readings[1])) {
-            // Go forward
-            rlink->command(BOTH_MOTORS_GO_OPPOSITE, speed);
-        } else if ((!lf->sensor_readings[0]) && (lf->sensor_readings[1])) {
-            // Left motor is black and right motor is white
-            // Steer left
-            // rlink->command(BOTH_MOTORS_GO_OPPOSITE, slow_speed);
-            steer('L');
-        }
-
-        else if ((lf->sensor_readings[0]) && (!lf->sensor_readings[1])) {
-            // Left motor is white and right motor is black
-            // Steer right
-            // rlink->command(BOTH_MOTORS_GO_OPPOSITE, reversed_sign(slow_speed));
-            steer('R');
-        }
-        lf->line_following_output(rlink->request(READ_PORT_5));
-    }
 }
 
 void mobility_control::forward_with_left_sensors(int cross_to_pass) {
