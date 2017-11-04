@@ -334,7 +334,7 @@ int start(int first_ball_location_1_to_4, bool TRY_ALL_6_BALLS = false) {
         return 0;
     }
     // Try the other 3 balls
-    start(4, true);
+    return start(4, true);
 }
 
 void test_arm() {
