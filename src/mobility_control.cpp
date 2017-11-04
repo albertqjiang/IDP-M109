@@ -12,6 +12,7 @@ mobility_control::mobility_control(robot_link* rl, line_follower* line_f) {
         lf = line_f;
         turning_ms = 1500;  // Turning time to be calibrated
 	walking_ms = 1250;  // Walking time to be calibrated
+	u_turn_ms = 2000;   // u_turn constant delay time
 	speed = 96;        // Marching speed
 	slow_speed = 24;    // Steering speed to be calibrated
 	turning_speed = 100;// Turning speed to be calibrated
@@ -209,4 +210,15 @@ void mobility_control::demo_start_and_align_ball(int ball_num) {
     forward();
     delay(1000);  // TODO: calibrate the time
     stop();
+}
+
+void mobility_control::u_turn() {
+	rlink->command(BOTH_MOTORS_GO_SAME, turning_speed);
+    delay(u_turn_ms);
+	while (!(0b0001 & rlink->request(READ_PORT_5)))
+		// Wait until the middle sensor hits the line
+		;
+    rlink->command(BOTH_MOTORS_GO_SAME, 0);
+    
+
 }

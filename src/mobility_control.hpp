@@ -14,9 +14,11 @@ class mobility_control {
     line_follower* lf;
     int turning_ms;
     int walking_ms;
+    int u_turn_ms;
     int speed;
     int slow_speed;
     int turning_speed;
+
 
    public:
     mobility_control(robot_link* rl, line_follower* line_f);
