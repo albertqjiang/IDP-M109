@@ -10,12 +10,15 @@ using namespace std;
 // robot_link rlink;         // datatype for the robot link
 custom_robot_link rlink;  // Our customized robot_link class
 const bool USE_STRAIN_GAUGE = false;
-const bool TRY_ALL_6_BALLS = false;
 const bool FAILURE_RECOVERY = false;
 
-int start() {
-    // Start route testing
-    // Collect first ball
+int start(int first_ball_location_1_to_4, bool TRY_ALL_6_BALLS = false) {
+    // Start collecting from the first ball location
+    if (first_ball_location_1_to_4 < 1) {
+        first_ball_location_1_to_4 = 1;
+    } else if (first_ball_location_1_to_4 > 4) {
+        first_ball_location_1_to_4 = 4;
+    }
     cout << "Make sure the arm points to the balls!" << endl;
     int alignment_delay = 150;    // The delay for collection point alignment
     int arm_rotate_delay = 1000;  // The delay for the arm rotation to stop
@@ -24,8 +27,8 @@ int start() {
     rlink.ac->contract();
     rlink.ac->release();
 
-    // Go to 1st ball
-    rlink.mc->forward_with_left_sensors(2);
+    // Go to the location of the 1st ball
+    rlink.mc->forward_with_left_sensors(1 + first_ball_location_1_to_4);
     delay(alignment_delay);
     rlink.mc->stop();
     delay(alignment_delay);
@@ -263,7 +266,7 @@ int start() {
     // 3 balls stored here
 
     // Go to DR
-    rlink.mc->forward_with_left_sensors(3);
+    rlink.mc->forward_with_left_sensors(4 - first_ball_location_1_to_4);
     rlink.mc->turn('l');  // turn left, use right sensors
 
     // Align with DR
@@ -330,27 +333,8 @@ int start() {
         // TODO: park the vehicle
         return 0;
     }
-    // Try all 6 balls, continue
-
-    /*
-    // Move to collect third ball
-    rlink.ac->contract();
-    rlink.ac->goto_left_mark();
-    rlink.ac->right(190);
-    delay(1000);
-    rlink.mc->forward_with_left_sensors(1);
-    rlink.mc->stop();
-    rlink.ac->extend();
-    rlink.ac->grab();
-    rlink.ac->contract();
-    rlink.ac->goto_right_mark();
-    rlink.ac->goto_right_mark();
-    rlink.ac->goto_right_mark();
-    rlink.ac->left(190);
-    delay(1000);
-    rlink.ac->extend();
-	rlink.ac->release();
-	*/
+    // Try the other 3 balls
+    start(4, true);
 }
 
 void test_actuator() {
@@ -394,159 +378,10 @@ void read_analog() {
 }
 
 int main() {
-    cout << "go" << endl;
-    rlink.ac->contract();
-    rlink.ac->release();
-    rlink.ac->grab();
-    rlink.ac->extend();
-    rlink.rlink.command(MOTOR_3_GO, (60));
-    delay(800);
-    return 0;
     // read_analog(); return 0;
-    // start();
-    /*
-	rlink.mc->forward_with_left_sensors(1);
-	delay(150);
-	rlink.mc->stop();
-	char c; cin >> c;
-	rlink.mc->turn('L');
-	rlink.mc->forward_with_lf(1);
-	rlink.mc->stop();
-	cin >> c;
-	rlink.mc->forward_with_lf(1);
-	rlink.mc->turn_to_left_sensors('L');
-	*/
-    rlink.mc->forward_with_left_sensors(1);
-    rlink.mc->turn_to_left_sensors('R');
-    rlink.mc->forward_with_left_sensors(1);
-    rlink.mc->turn('L');
-    rlink.mc->forward_with_lf(1);
-    rlink.mc->turn('L');
-    rlink.mc->forward_with_lf(1);
-    return 0;
 
-    /*	// Arm rotor testing
-	rlink.ac->contract();
-	rlink.ac->release();
-	while (1) {
-		cout << "Go right" << endl;
-		int num_of_marks = 7;
-		while (num_of_marks--) {
-			rlink.ac->extend();
-			rlink.ac->release();
-			rlink.ac->grab();
-			rlink.ac->contract();
-			rlink.ac->goto_right_mark();
-			rlink.ac->left(190);
-			delay(1000);
-		}
-		
-		cout << "Go left" << endl;
-		num_of_marks = 7;
-		while (num_of_marks--) {
-			rlink.ac->extend();
-			rlink.ac->release();
-			rlink.ac->grab();
-			rlink.ac->contract();
-			rlink.ac->goto_left_mark();
-			rlink.ac->right(180);
-			delay(1000);
-		}
-	}
-	return 0;
-*/
-    /*while(1) {
-		//rlink.mc->turn('l'); break;
-		rlink.lf->line_following_output(rlink.request(READ_PORT_5));
-		bool* lf_sensors = rlink.lf->sensor_readings;
-		int rota_speed = 75 + 128;
-		if (!lf_sensors[2]) { //both front sensors read black
-			rlink.rlink.command(MOTOR_3_GO, rota_speed);
-		}
-		else {
-			rlink.rlink.command(MOTOR_3_GO, rota_speed-128);
-			delay(500);
-			break;
-		}
-		
-		
-	}
-	return 0;*/
-
-    // Go around the table
-
-    rlink.mc->forward_with_lf(1);
-    for (int i = 0; i < 10; i++) {
-        rlink.mc->forward_with_lf(6);
-        rlink.mc->turn('L');
-        rlink.mc->forward_with_lf(2);
-        rlink.mc->turn('L');
-        rlink.mc->forward_with_lf(1);
-        rlink.mc->turn('R');
-        rlink.mc->forward_with_lf(1);
-        rlink.mc->turn('L');
-        rlink.mc->forward_with_lf(4);
-        rlink.mc->turn('L');
-        rlink.mc->forward_with_lf(4);
-        rlink.mc->turn('L');
-    }
-    return 0;
-
-    // Actuator testing
-    rlink.ac->contract();
-    rlink.ac->release();
-    delay(2000);
-    while (1) {
-        int to_slot_0 = 1500;
-
-        rlink.ac->right(to_slot_0);  // Turn right for to_slot_0 ms.
-        delay(2000);
-        rlink.ac->left(to_slot_0);  // Turn left for to_slot_0 ms.
-        cout << "Stop\n";
-        delay(2000);
-    }
-    return 0;
-
-    // Line following and turning testing
-    while (1) {
-        //rlink.mc->turn('l'); break;
-        rlink.lf->line_following_output(rlink.request(READ_PORT_5));
-        bool* lf_sensors = rlink.lf->sensor_readings;
-        if ((!lf_sensors[0]) && (!lf_sensors[1])) {  //both front sensors read black
-            rlink.mc->forward();
-            cout << "F" << endl;
-        } else if ((!lf_sensors[0]) && lf_sensors[1]) {
-            rlink.mc->steer('R');
-            cout << "R" << endl;
-        } else if (lf_sensors[0] && (!lf_sensors[1])) {
-            rlink.mc->steer('L');
-            cout << "L" << endl;
-        } else {
-            cout << "STOP" << endl;
-            rlink.mc->stop();
-            break;
-        }
-    }
-    rlink.mc->turn('R');
-    while (1) {
-        //rlink.mc->turn('l'); break;
-        rlink.lf->line_following_output(rlink.request(READ_PORT_5));
-        bool* lf_sensors = rlink.lf->sensor_readings;
-        if ((!lf_sensors[0]) && (!lf_sensors[1])) {  //both front sensors read black
-            rlink.mc->forward();
-            cout << "F" << endl;
-        } else if ((!lf_sensors[0]) && lf_sensors[1]) {
-            rlink.mc->steer('R');
-            cout << "R" << endl;
-        } else if (lf_sensors[0] && (!lf_sensors[1])) {
-            rlink.mc->steer('L');
-            cout << "L" << endl;
-        } else {
-            cout << "STOP" << endl;
-            rlink.mc->stop();
-            break;
-        }
-    }
+    start(1, false);  // Start collecting from the 1st ball, don't try all 6 balls
+    // start(1, true);  // Start collecting from the 1st ball, try all 6 balls
 
     return 0;
 }
