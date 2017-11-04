@@ -41,6 +41,7 @@ class custom_robot_link {
     detection* dc;
 
     void drop_a_heavy_ball_to_the_right();
+    void drop_ball_to_D123(int ball_type);
 
     friend int reversed_sign(const int& motor_speed);
 };

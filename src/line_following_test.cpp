@@ -10,6 +10,7 @@ using namespace std;
 // robot_link rlink;         // datatype for the robot link
 custom_robot_link rlink;  // Our customized robot_link class
 const bool USE_STRAIN_GAUGE = false;
+const bool TRY_ALL_6_BALLS = false;
 
 int start() {
     // Start route testing
@@ -164,7 +165,7 @@ int start() {
     rlink.mc->stop();
     delay(alignment_delay);
 
-	// Pick the 1st heavy ball (if existing) and deliver it
+    // Pick the 1st heavy ball (if existing) and deliver it
     rlink.drop_a_heavy_ball_to_the_right();
 
     // 1st DR done
@@ -184,6 +185,47 @@ int start() {
     // Pick the 1st heavy ball (if existing) and deliver it
     rlink.drop_a_heavy_ball_to_the_right();
 
+    // Get to cross before D1 and stop
+    rlink.mc->turn('l');  // Turn left
+    rlink.mc->forward_with_lf(1);
+    delay(alignment_delay);
+    rlink.mc->stop();
+
+    // If holding ball 1, deliver it and return to this cross, otherwise do nothing
+    rlink.drop_ball_to_D123(1);
+    // Go to the next cross and stop
+    rlink.mc->forward_with_lf(1);
+    delay(alignment_delay);
+    rlink.mc->stop();
+
+    // If holding ball 3, deliver it and return to this cross, otherwise do nothing
+    rlink.drop_ball_to_D123(3);
+    // Go to the next cross and stop
+    rlink.mc->forward_with_lf(1);
+    delay(alignment_delay);
+    rlink.mc->stop();
+
+    // If holding ball 5, deliver it and return to this cross, otherwise do nothing
+    rlink.drop_ball_to_D123(5);
+    // Go to the next cross and stop
+    rlink.mc->forward_with_lf(1);
+    delay(alignment_delay);
+    rlink.mc->stop();
+
+    // Now at the corner of the arena
+    // Go home
+    rlink.mc->turn('l');
+    forward_with_lf(4);
+    rlink.mc->turn_to_left_sensors('l');
+    
+    if (!TRY_ALL_6_BALLS) {
+        // End here, park the vehicle inside the box
+        // TODO: park the vehicle
+        return 0;
+    }
+    // Try all 6 balls, continue
+
+    /*
     // Move to collect third ball
     rlink.ac->contract();
     rlink.ac->goto_left_mark();
@@ -200,7 +242,8 @@ int start() {
     rlink.ac->left(190);
     delay(1000);
     rlink.ac->extend();
-    rlink.ac->release();
+	rlink.ac->release();
+	*/
 }
 
 void test_actuator() {
@@ -342,8 +385,6 @@ int main() {
     }
     return 0;
 
-    // TODO: The rotation motor can't be calibrated due to crazy resistance forces of the wires.
-    // TODO: need softer wires and better wire arrangement
     // Actuator testing
     rlink.ac->contract();
     rlink.ac->release();

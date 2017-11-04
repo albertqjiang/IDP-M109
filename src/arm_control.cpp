@@ -67,6 +67,7 @@ void arm_control::goto_left_mark() {
 		;
 	rlink->command(MOTOR_3_GO, 0);
 	// TODO: reverse the motor to brake?
+	// right(190);
 	cout << "Left reached" << endl;
 }
 
@@ -78,6 +79,7 @@ void arm_control::goto_right_mark() {
 		;
 	rlink->command(MOTOR_3_GO, 0);
 	// TODO: reverse the motor to brake?
+	// left(190);
 	cout << "Right reached" << endl;
 }
 

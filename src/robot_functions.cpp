@@ -41,7 +41,7 @@ custom_robot_link::custom_robot_link() {
     mc = new mobility_control(&rlink, lf);
     ac = new arm_control(&rlink);
     dc = new detection(&rlink);
-    // TODO: Initialize more subclasses
+    // TODO: Initialize led_control
 
     // Initialize status of ball slots
     ball_slots[0] = -1;
@@ -94,5 +94,60 @@ void custom_robot_link::drop_a_heavy_ball_to_the_right() {
         ac->extend();
         ac->release();
         ac->contract();
+    }
+}
+
+void custom_robot_link::drop_ball_to_D123(int ball_type) {
+    // If holding target ball, go to delivery point, drop it and return
+    // Start at the cross before D1, D2 or D3, which should be to the left of the robot
+
+    int target_slot = -1;
+    for (int i = 0; i < 3; i++) {
+        if (ball_slots[i] == ball_type) {
+            target_slot = i;     // target ball
+            ball_slots[i] = -1;  // Clear ball slot
+            break;
+        }
+    }
+
+    if (target_slot >= 0) {  // Has target ball, deliver 1st heavy ball
+        // Go to delivery point first
+        mc->turn('L');
+
+        // TODO: calibrate time to hit D1-3!!!
+        mc->forward_for_time_ms(5000);
+        // TODO!!!!
+
+        // Rotate to target ball
+        for (int i = 0; i < target_slot + 1; i++) {
+            // Distance to the target slot is 1 + target_slot
+            ac->goto_right_mark();
+        }
+
+        // Grab ball
+        ac->extend();
+        ac->grab();
+        ac->contract();
+
+        // Rotate back to delivery position in the front
+        for (int i = 0; i < target_slot + 2; i++) {
+            // Distance between delivery position and slot is 2 + target_slot
+            ac->goto_right_mark();
+        }
+
+        // Release ball (when contracted)
+        ac->release();
+
+        // Reset to original arm position
+        ac->goto_right_mark();
+
+        // Now return to the cross, and face the next cross
+        mc->backward();
+        delay(1000);  // TODO: calibrate how much to back the vehicle before turning around
+        mc->stop();
+        delay(200);
+        mc->turn_180();
+        mc->forward_with_lf(1);
+        mc->turn('l');
     }
 }
