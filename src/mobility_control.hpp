@@ -35,7 +35,7 @@ class mobility_control {
     void move_till_cross();
     void forward_for_time_ms(int ms);
     void left_sandwich();
-    friend int reversed_sign(const int& motor_speed);  // TODO: make sure this line compiles
+    friend int reversed_sign(const int& motor_speed);
 };
 
 #endif  // MOBILITY_CONTROL_HPP

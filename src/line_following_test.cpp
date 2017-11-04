@@ -337,8 +337,8 @@ int start(int first_ball_location_1_to_4, bool TRY_ALL_6_BALLS = false) {
     start(4, true);
 }
 
-void test_actuator() {
-    // Test actuator
+void test_arm() {
+    // Test arm and actuators
     while (1) {
         break;
         char c;
@@ -355,6 +355,12 @@ void test_actuator() {
                 break;
             case 'g':
                 rlink.ac->grab();
+                break;
+            case '1':
+                rlink.ac->goto_left_mark();
+                break;
+            case '2':
+                rlink.ac->goto_right_mark();
                 break;
             default:
                 break;
@@ -377,8 +383,28 @@ void read_analog() {
     }
 }
 
+void test_180_turn() {
+    rlink.mc->turn_180();
+    rlink.mc->forward_for_time_ms(2000);
+    rlink.mc->turn_180_clockwise();
+    rlink.mc->forward_for_time_ms(2000);
+}
+
+void test_D123_return() {
+    rlink.mc->backward();
+    delay(1000);  // TODO: calibrate how much to back the vehicle before turning around
+    rlink.mc->stop();
+    delay(200);
+    rlink.mc->turn_180();
+    rlink.mc->forward_with_lf(1);
+    rlink.mc->turn('l');
+}
+
 int main() {
-    // read_analog(); return 0;
+    // read_analog();
+    // test_arm();
+    // test_180_turn();
+    // test_D123_return();
 
     start(1, false);  // Start collecting from the 1st ball, don't try all 6 balls
     // start(1, true);  // Start collecting from the 1st ball, try all 6 balls
