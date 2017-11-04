@@ -31,6 +31,7 @@ class mobility_control {
     void forward_with_left_sensors(int cross_to_pass);
     //This function will move the robot forward until it has passed pass_cross crosses and meets the next cross
     void move_till_cross();
+    void forward_for_time_ms(int ms);
     void left_sandwich();
     void demo_start_and_align_ball(int ball_num);
     friend int reversed_sign(const int& motor_speed);  // TODO: make sure this line compiles

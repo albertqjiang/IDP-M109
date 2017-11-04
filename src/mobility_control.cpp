@@ -3,6 +3,7 @@
 #include <robot_link.h>
 #include <robot_delay.h>
 #include "robot_functions.hpp"
+#include <stopwatch.h>
 #include "mobility_control.hpp"
 
 using namespace std;
@@ -66,6 +67,30 @@ void mobility_control::move_till_cross() {
             break;
         }
     }
+}
+
+void mobility_control::forward_for_time_ms(int ms) {
+    stopwatch watch;
+    watch.start();
+    while (watch.read() < ms) {
+        lf->line_following_output(rlink->request(READ_PORT_5));
+        bool* lf_sensors = lf->sensor_readings;
+        if ((!lf_sensors[0]) && (!lf_sensors[1])) {  //both front sensors read black
+            forward();
+            cout << "F" << endl;
+        } else if ((!lf_sensors[0]) && lf_sensors[1]) {
+            steer('R');
+            cout << "R" << endl;
+        } else if (lf_sensors[0] && (!lf_sensors[1])) {
+            steer('L');
+            cout << "L" << endl;
+        } else {
+            cout << "STOP" << endl;
+            stop();
+            break;
+        }
+    }
+    stop();
 }
 
 void mobility_control::forward_with_left_sensors(int cross_to_pass) {
