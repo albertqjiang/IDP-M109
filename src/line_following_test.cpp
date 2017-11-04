@@ -11,6 +11,7 @@ using namespace std;
 custom_robot_link rlink;  // Our customized robot_link class
 const bool USE_STRAIN_GAUGE = false;
 const bool TRY_ALL_6_BALLS = false;
+const bool FAILURE_RECOVERY = false;
 
 int start() {
     // Start route testing
@@ -30,8 +31,8 @@ int start() {
     delay(alignment_delay);
 
     // Reached 1st ball
+    delay(1000);  // Wait for a complete stop
     rlink.ac->extend();
-    rlink.ac->release();
     rlink.ac->grab();
     rlink.ac->contract();  // 1st Ball got
 
@@ -57,6 +58,41 @@ int start() {
     // Classify 1st ball
     rlink.ac->release();
     rlink.ball_slots[2] = rlink.dc->classify();  // 3rd slot
+    // Faillure recovery: retry once if no ball is present
+    if (FAILURE_RECOVERY && rlink.ball_slots[2] == -1) {
+        // Failure recovery: attempt to collect the ball again
+        for (int i = 0; i < 5; i++) {
+            rlink.ac->goto_left_mark();
+        }
+        delay(arm_rotate_delay);
+        rlink.ac->extend();
+        rlink.ac->grab();
+        rlink.ac->contract();  // 1st Ball got
+
+        for (int i = 0; i < 3; i++) {  // 3rd slot
+            rlink.ac->goto_right_mark();
+        }
+        delay(arm_rotate_delay);
+        rlink.ac->extend();
+        rlink.ac->release();
+        rlink.ac->grab();  // Adjust ball position
+        rlink.ac->contract();
+        rlink.ac->goto_right_mark();
+        delay(arm_rotate_delay);
+
+        if (USE_STRAIN_GAUGE) {
+            rlink.ac->release();
+            // TODO: read strain gauge
+            rlink.ac->grab();  // Strain gauge
+        }
+        rlink.ac->goto_right_mark();  // LDR
+        delay(arm_rotate_delay);
+
+        // Classify 1st ball
+        rlink.ac->release();
+        rlink.ball_slots[2] = rlink.dc->classify();  // 3rd slot
+    }
+    // End of failure recovery
     rlink.ac->grab();
 
     // TODO: LED output
@@ -99,6 +135,42 @@ int start() {
     // Classify 2nd ball
     rlink.ac->release();
     rlink.ball_slots[1] = rlink.dc->classify();  // 2nd slot
+    // Faillure recovery: retry once if no ball is present
+    if (FAILURE_RECOVERY && rlink.ball_slots[1] == -1) {
+        // Failure recovery: attempt to collect the ball again
+        for (int i = 0; i < 5; i++) {
+            rlink.ac->goto_left_mark();
+        }
+        delay(arm_rotate_delay);
+        rlink.ac->extend();
+        rlink.ac->grab();
+        rlink.ac->contract();  // 2nd Ball got
+
+        for (int i = 0; i < 2; i++) {  // 2rd slot
+            rlink.ac->goto_right_mark();
+        }
+        delay(arm_rotate_delay);
+        rlink.ac->extend();
+        rlink.ac->release();
+        rlink.ac->grab();  // Adjust ball position
+        rlink.ac->contract();
+        rlink.ac->goto_right_mark();
+        rlink.ac->goto_right_mark();
+        delay(arm_rotate_delay);
+
+        if (USE_STRAIN_GAUGE) {
+            rlink.ac->release();
+            // TODO: read strain gauge
+            rlink.ac->grab();  // Strain gauge
+        }
+        rlink.ac->goto_right_mark();  // LDR
+        delay(arm_rotate_delay);
+
+        // Classify 1st ball
+        rlink.ac->release();
+        rlink.ball_slots[2] = rlink.dc->classify();  // 3rd slot
+    }
+    // End of failure recovery
     rlink.ac->grab();
 
     // TODO: LED output
@@ -140,6 +212,41 @@ int start() {
     // Classify 3rd ball
     rlink.ac->release();
     rlink.ball_slots[0] = rlink.dc->classify();  // 1st slot
+    // Faillure recovery: retry once if no ball is present
+    if (FAILURE_RECOVERY && rlink.ball_slots[1] == -1) {
+        // Failure recovery: attempt to collect the ball again
+        for (int i = 0; i < 5; i++) {
+            rlink.ac->goto_left_mark();
+        }
+        delay(arm_rotate_delay);
+        rlink.ac->extend();
+        rlink.ac->grab();
+        rlink.ac->contract();  // 3rd Ball got
+
+        rlink.ac->goto_right_mark();
+        delay(arm_rotate_delay);
+        rlink.ac->extend();
+        rlink.ac->release();
+        rlink.ac->grab();  // Adjust ball position
+        rlink.ac->contract();
+        rlink.ac->goto_right_mark();
+        rlink.ac->goto_right_mark();
+        rlink.ac->goto_right_mark();
+        delay(arm_rotate_delay);
+
+        if (USE_STRAIN_GAUGE) {
+            rlink.ac->release();
+            // TODO: read strain gauge
+            rlink.ac->grab();  // Strain gauge
+        }
+        rlink.ac->goto_right_mark();  // LDR
+        delay(arm_rotate_delay);
+
+        // Classify 1st ball
+        rlink.ac->release();
+        rlink.ball_slots[2] = rlink.dc->classify();  // 3rd slot
+    }
+    // End of failure recovery
     rlink.ac->grab();
 
     // TODO: LED output
@@ -217,7 +324,7 @@ int start() {
     rlink.mc->turn('l');
     rlink.mc->forward_with_lf(4);
     rlink.mc->turn_to_left_sensors('l');
-    
+
     if (!TRY_ALL_6_BALLS) {
         // End here, park the vehicle inside the box
         // TODO: park the vehicle

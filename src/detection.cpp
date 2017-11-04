@@ -28,9 +28,8 @@ int detection::classify() {
     }
 
     cout << "Max reading: " << max_reading << endl;
-    return max_reading;  // return -1 if weight detected is 0
 
-    if (19 < max_reading && max_reading <= 27) {
+    if (19 <= max_reading && max_reading <= 27) {
         return 4;  // Heavy Yellow
     } else if ((31 < max_reading && max_reading <= 35) || (15 < max_reading && max_reading <= 19)) {
         return 2;  // Heavy White
@@ -38,7 +37,14 @@ int detection::classify() {
         return 3;  // Light yellow
     } else if (36 < max_reading && max_reading <= 46) {
         return 5;  // Multi
-    } else if (62 < max_reading) {
+    } else if (62 < max_reading && max_reading <= 70) {
         return 1;  // Light White
+    } else if (max_reading > 70) {
+        // Failure: no ball collected or ball dropped
+        return -1;
+    } else {
+        // Failure recovery:
+        // Ball not recognized, bet it is a heavy ball
+        return 2;
     }
 }
