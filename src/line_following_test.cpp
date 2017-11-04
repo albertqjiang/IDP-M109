@@ -215,7 +215,7 @@ int start() {
     // Now at the corner of the arena
     // Go home
     rlink.mc->turn('l');
-    forward_with_lf(4);
+    rlink.mc->forward_with_lf(4);
     rlink.mc->turn_to_left_sensors('l');
     
     if (!TRY_ALL_6_BALLS) {
