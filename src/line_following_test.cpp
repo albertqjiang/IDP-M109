@@ -9,31 +9,33 @@ using namespace std;
 #define ROBOT_NUM 7  // The id number (see below)
 // robot_link rlink;         // datatype for the robot link
 custom_robot_link rlink;  // Our customized robot_link class
-double PARAMETER_TO_CALIBRATE = 1.0;
 const bool USE_STRAIN_GAUGE = false;
+
+int ball_slots[] = {-1, -1, -1};  // -1 for empty
+// 1 for light W, 2 for heavy W, 3 for light Y, 4 for heavy Y, 5 for Multi
 
 int start() {
     // Start route testing
     // Collect first ball
     cout << "Make sure the arm points to the balls!" << endl;
     int alignment_delay = 150;    // The delay for collection point alignment
-	int arm_rotate_delay = 1000;  // The delay for the arm rotation to stop
-	
-	// Reset arm status
-    rlink.ac->contract();
-	rlink.ac->release();
+    int arm_rotate_delay = 1000;  // The delay for the arm rotation to stop
 
-	// Go to 1st ball
+    // Reset arm status
+    rlink.ac->contract();
+    rlink.ac->release();
+
+    // Go to 1st ball
     rlink.mc->forward_with_left_sensors(2);
     delay(alignment_delay);
     rlink.mc->stop();
-	delay(alignment_delay);
-	
-	// Reached 1st ball
+    delay(alignment_delay);
+
+    // Reached 1st ball
     rlink.ac->extend();
     rlink.ac->release();
     rlink.ac->grab();
-	rlink.ac->contract();  // 1st Ball got
+    rlink.ac->contract();  // 1st Ball got
 
     rlink.ac->goto_right_mark();
     rlink.ac->goto_right_mark();
@@ -44,15 +46,24 @@ int start() {
     rlink.ac->grab();  // Adjust ball position
     rlink.ac->contract();
     rlink.ac->goto_right_mark();
-	delay(arm_rotate_delay);
-	
-	if (USE_STRAIN_GAUGE) {
-		rlink.ac->release();
-		// TODO: read strain gauge
-		rlink.ac->grab();             // Strain gauge
-	}
+    delay(arm_rotate_delay);
+
+    if (USE_STRAIN_GAUGE) {
+        rlink.ac->release();
+        // TODO: read strain gauge
+        rlink.ac->grab();  // Strain gauge
+    }
     rlink.ac->goto_right_mark();  // LDR
     delay(arm_rotate_delay);
+
+    // Classify 1st ball
+    rlink.ac->release();
+    ball_slots[2] = rlink.dc->classify();  // 3rd slot
+    rlink.ac->grab();
+
+    // TODO: LED output
+
+    // Put the ball in the 3rd slot
     rlink.ac->goto_left_mark();
     rlink.ac->goto_left_mark();  // 3rd slot
     rlink.ac->extend();
@@ -62,7 +73,7 @@ int start() {
     rlink.ac->goto_left_mark();
     rlink.ac->goto_left_mark();  // Ready to collect
 
-    // Move to collect second ball
+    // Move to collect 2nd ball
     rlink.mc->forward_with_left_sensors(1);
     delay(alignment_delay);
     rlink.mc->stop();
@@ -78,13 +89,168 @@ int start() {
     rlink.ac->contract();
     rlink.ac->goto_right_mark();
     rlink.ac->goto_right_mark();
-    rlink.ac->release();
-    rlink.ac->grab();             // strain gauge
+
+    if (USE_STRAIN_GAUGE) {
+        rlink.ac->release();
+        // TODO: read strain gauge
+        rlink.ac->grab();  // Strain gauge
+    }
+
     rlink.ac->goto_right_mark();  // LDR
+
+    // Classify 2nd ball
+    rlink.ac->release();
+    ball_slots[1] = rlink.dc->classify();  // 2nd slot
+    rlink.ac->grab();
+
+    // TODO: LED output
+
     rlink.ac->goto_left_mark();
     rlink.ac->goto_left_mark();
     rlink.ac->goto_left_mark();  // 2nd slot
-    return 0;
+    rlink.ac->extend();
+    rlink.ac->release();
+    rlink.ac->contract();  // 2nd ball -> 2nd slot
+    rlink.ac->goto_left_mark();
+    rlink.ac->goto_left_mark();  // Ready to collect
+
+    // Move to collect 3rd ball
+    rlink.mc->forward_with_left_sensors(1);
+    delay(alignment_delay);
+    rlink.mc->stop();
+    delay(alignment_delay);
+    rlink.ac->extend();
+    rlink.ac->grab();
+    rlink.ac->contract();
+    rlink.ac->goto_right_mark();  // 1st slot
+    rlink.ac->extend();
+    rlink.ac->release();
+    rlink.ac->grab();  // Adjust ball position
+    rlink.ac->contract();
+    rlink.ac->goto_right_mark();
+    rlink.ac->goto_right_mark();
+    rlink.ac->goto_right_mark();
+    rlink.ac->goto_right_mark();  // LDR
+
+    // Classify 3rd ball
+    rlink.ac->release();
+    ball_slots[0] = rlink.dc->classify();  // 1st slot
+    rlink.ac->grab();
+
+    // TODO: LED output
+
+    rlink.ac->goto_left_mark();
+    rlink.ac->goto_left_mark();
+    rlink.ac->goto_left_mark();
+    rlink.ac->goto_left_mark();  // 1st slot
+    rlink.ac->extend();
+    rlink.ac->release();
+    rlink.ac->contract();        // 3rd ball -> 1st slot
+    rlink.ac->goto_left_mark();  // Ready to collect
+
+    // 3 balls stored here
+
+    // Go to DR
+    rlink.mc->forward_with_left_sensors(3);
+    rlink.mc->turn('l');  // turn left, use right sensors
+
+    // Align with DR
+    rlink.mc->forward_with_lf(1);
+    delay(alignment_delay);
+    rlink.mc->stop();
+    delay(alignment_delay);
+
+    // Sub-routine: collect and drop ball
+    // If ball 2 or 4 is here, drop one to the right, arm extended
+    {  // scope for heavy_ball_slot
+        int heavy_ball_slot = -1;
+        for (int i = 0; i < 3; i++) {
+            if (ball_slots[i] == 2 || ball_slots[i] == 4) {
+                heavy_ball_slot = i;  // 1st heavy ball
+                ball_slots[i] = -1;   // Clear ball slot
+                break;
+            }
+        }
+
+        if (heavy_ball_slot >= 0) {  // Has heavy ball(s), deliver 1st heavy ball
+            // Go to 1st heavy ball
+            for (int i = 0; i < heavy_ball_slot + 1; i++) {
+                // Distance between delivery position and slot is 1 + heavy_ball_slot
+                rlink.ac->goto_right_mark();
+            }
+
+            // Grab ball
+            rlink.ac->extend();
+            rlink.ac->grab();
+            rlink.ac->contract();
+
+            // Go back to delivery position
+            for (int i = 0; i < heavy_ball_slot + 1; i++) {
+                // Distance between delivery position and slot is 1 + heavy_ball_slot
+                rlink.ac->goto_right_mark();
+            }
+
+            // Release ball
+            rlink.ac->extend();
+            rlink.ac->release();
+            rlink.ac->contract();
+
+            // TODO: extend to drop at 1st DR?
+        }
+    }
+
+    // 1st DR done
+
+    // Turn left
+    rlink.mc->forward_with_lf(1);
+    rlink.mc->turn_to_left_sensors('L');  // Need to align with left sensors to avoid the walls!!!
+
+    // Go to 2nd DR and align with it
+    rlink.mc->forward_with_left_sensors(1);
+    rlink.mc->turn_to_left_sensors('R');  // Turn right
+    rlink.mc->forward_with_left_sensors(1);
+    delay(alignment_delay);
+    rlink.mc->stop();
+    delay(alignment_delay);
+
+    // Sub-routine: collect and drop ball
+    // If ball 2 or 4 is here, drop one to the right, arm extended
+    {  // scope for heavy_ball_slot
+        int heavy_ball_slot = -1;
+        for (int i = 0; i < 3; i++) {
+            if (ball_slots[i] == 2 || ball_slots[i] == 4) {
+                heavy_ball_slot = i;  // 1st heavy ball
+                ball_slots[i] = -1;   // Clear ball slot
+                break;
+            }
+        }
+
+        if (heavy_ball_slot >= 0) {  // Has heavy ball(s), deliver 1st heavy ball
+            // Go to 1st heavy ball
+            for (int i = 0; i < heavy_ball_slot + 1; i++) {
+                // Distance between delivery position and slot is 1 + heavy_ball_slot
+                rlink.ac->goto_right_mark();
+            }
+
+            // Grab ball
+            rlink.ac->extend();
+            rlink.ac->grab();
+            rlink.ac->contract();
+
+            // Go back to delivery position
+            for (int i = 0; i < heavy_ball_slot + 1; i++) {
+                // Distance between delivery position and slot is 1 + heavy_ball_slot
+                rlink.ac->goto_right_mark();
+            }
+
+            // Release ball
+            rlink.ac->extend();
+            rlink.ac->release();
+            rlink.ac->contract();
+
+            // TODO: extend to drop at 1st DR?
+        }
+    }
 
     // Move to collect third ball
     rlink.ac->contract();
