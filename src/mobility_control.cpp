@@ -145,7 +145,7 @@ void mobility_control::turn_to_left_sensors(char direction) {
         delay(walking_ms);
         rlink->command(BOTH_MOTORS_GO_SAME, turning_speed);
         delay(turning_ms);
-        while (!(0b0100 & rlink->request(READ_PORT_5)))
+        while (!(0b1000 & rlink->request(READ_PORT_5)))
             ;  // Wait until the left sensor hits the line
 
         rlink->command(BOTH_MOTORS_GO_SAME, 0);
