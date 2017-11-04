@@ -33,6 +33,7 @@ class arm_control {
     // Precision rotation
     void goto_left_mark();
     void goto_right_mark();
+    void arm_control::collect_and_put(int position);
 
     friend int reversed_sign(const int& motor_speed);
 };

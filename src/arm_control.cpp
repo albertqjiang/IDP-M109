@@ -79,3 +79,15 @@ void arm_control::goto_right_mark() {
 	cout << "Right reached" << endl;
 }
 
+void arm_control::collect_and_put(int position) {
+	release();
+	extend();
+	grab();
+	contract();
+	for (int i = 0; i < 5; i ++) {
+		goto_right_mark();
+	}
+	left(190);
+	rlink.request(ADC1);
+	//incomplete
+}
