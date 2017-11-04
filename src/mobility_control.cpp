@@ -123,7 +123,7 @@ void mobility_control::move_across_cross() {
     }
 }
 
-void mobility_control::forward_with_ls(int cross_to_pass) {
+void mobility_control::forward_with_left_sensors(int cross_to_pass) {
     for (int i = 0; i < cross_to_pass - 1; i++) {
         left_sandwich();
 	forward();

@@ -9,14 +9,14 @@ using namespace std;
 #include <robot_delay.h>
 
 class detection {
-	public:
-	int classify() {
-		// return a number indicating a kind of golf ball
-		return -1; // return -1 if weight detected is 0
-	}
-	
+    robot_link* rlink;
 
-};  
+   public:
+    detection(robot_link* rl);  // Ctor
+    int classify() {
+        // return a number indicating a kind of golf ball
+        return -1;  // return -1 if weight detected is 0
+    }
+};
 
-
-#endif // DETECTION_HPP
+#endif  // DETECTION_HPP

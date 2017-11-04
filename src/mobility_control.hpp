@@ -26,7 +26,7 @@ class mobility_control {
     void turn_to_left_sensors(char direction);   // align the left sensors
     void steer(char direction);  // 'l' 'L' for left, 'r' 'R' for right
     void forward_with_lf(int cross_to_pass);
-    void forward_with_ls(int cross_to_pass);
+    void forward_with_left_sensors(int cross_to_pass);
     //This function will move the robot forward until it has passed pass_cross crosses and meets the next cross
     void move_till_cross();
     void move_across_cross();

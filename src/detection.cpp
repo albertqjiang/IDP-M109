@@ -5,3 +5,7 @@ using namespace std;
 #include <robot_link.h>
 #include <robot_delay.h>
 #include "detection.hpp"
+
+detection::detection(robot_link* rl) {
+    rlink = rl;
+}
