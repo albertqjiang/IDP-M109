@@ -24,20 +24,23 @@ class detection;
 int reversed_sign(const int& motor_speed);
 
 class custom_robot_link {
-    
-
    public:
-robot_link rlink;
+    robot_link rlink;
+
+    int ball_slots[3];  // Status of ball slots
+                        // -1 for empty
+                        // 1 for light W, 2 for heavy W, 3 for light Y, 4 for heavy Y, 5 for Multi
+
     custom_robot_link();   // Ctor
     ~custom_robot_link();  // Dtor
     int request(request_instruction instr);
-    // TODO: write constructors for all these classes,
-    // and initialize them in custom_robot_link constructor
     line_follower* lf;
     mobility_control* mc;
     arm_control* ac;
     //led_control* lc;
     detection* dc;
+
+    void drop_a_heavy_ball_to_the_right();
 
     friend int reversed_sign(const int& motor_speed);
 };

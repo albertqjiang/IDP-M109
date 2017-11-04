@@ -66,6 +66,7 @@ void arm_control::goto_left_mark() {
 		// Wait until the next mark is reached
 		;
 	rlink->command(MOTOR_3_GO, 0);
+	// TODO: reverse the motor to brake?
 	cout << "Left reached" << endl;
 }
 
@@ -76,6 +77,7 @@ void arm_control::goto_right_mark() {
 		// Wait until the next mark is reached
 		;
 	rlink->command(MOTOR_3_GO, 0);
+	// TODO: reverse the motor to brake?
 	cout << "Right reached" << endl;
 }
 
@@ -88,6 +90,6 @@ void arm_control::collect_and_put(int position) {
 		goto_right_mark();
 	}
 	left(190);
-	rlink.request(ADC1);
+	rlink->request(ADC1);
 	//incomplete
 }

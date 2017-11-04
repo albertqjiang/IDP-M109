@@ -11,9 +11,6 @@ using namespace std;
 custom_robot_link rlink;  // Our customized robot_link class
 const bool USE_STRAIN_GAUGE = false;
 
-int ball_slots[] = {-1, -1, -1};  // -1 for empty
-// 1 for light W, 2 for heavy W, 3 for light Y, 4 for heavy Y, 5 for Multi
-
 int start() {
     // Start route testing
     // Collect first ball
@@ -58,7 +55,7 @@ int start() {
 
     // Classify 1st ball
     rlink.ac->release();
-    ball_slots[2] = rlink.dc->classify();  // 3rd slot
+    rlink.ball_slots[2] = rlink.dc->classify();  // 3rd slot
     rlink.ac->grab();
 
     // TODO: LED output
@@ -100,7 +97,7 @@ int start() {
 
     // Classify 2nd ball
     rlink.ac->release();
-    ball_slots[1] = rlink.dc->classify();  // 2nd slot
+    rlink.ball_slots[1] = rlink.dc->classify();  // 2nd slot
     rlink.ac->grab();
 
     // TODO: LED output
@@ -130,11 +127,18 @@ int start() {
     rlink.ac->goto_right_mark();
     rlink.ac->goto_right_mark();
     rlink.ac->goto_right_mark();
+
+    if (USE_STRAIN_GAUGE) {
+        rlink.ac->release();
+        // TODO: read strain gauge
+        rlink.ac->grab();  // Strain gauge
+    }
+
     rlink.ac->goto_right_mark();  // LDR
 
     // Classify 3rd ball
     rlink.ac->release();
-    ball_slots[0] = rlink.dc->classify();  // 1st slot
+    rlink.ball_slots[0] = rlink.dc->classify();  // 1st slot
     rlink.ac->grab();
 
     // TODO: LED output
@@ -160,44 +164,8 @@ int start() {
     rlink.mc->stop();
     delay(alignment_delay);
 
-    // Sub-routine: collect and drop ball
-    // If ball 2 or 4 is here, drop one to the right, arm extended
-    {  // scope for heavy_ball_slot
-        int heavy_ball_slot = -1;
-        for (int i = 0; i < 3; i++) {
-            if (ball_slots[i] == 2 || ball_slots[i] == 4) {
-                heavy_ball_slot = i;  // 1st heavy ball
-                ball_slots[i] = -1;   // Clear ball slot
-                break;
-            }
-        }
-
-        if (heavy_ball_slot >= 0) {  // Has heavy ball(s), deliver 1st heavy ball
-            // Go to 1st heavy ball
-            for (int i = 0; i < heavy_ball_slot + 1; i++) {
-                // Distance between delivery position and slot is 1 + heavy_ball_slot
-                rlink.ac->goto_right_mark();
-            }
-
-            // Grab ball
-            rlink.ac->extend();
-            rlink.ac->grab();
-            rlink.ac->contract();
-
-            // Go back to delivery position
-            for (int i = 0; i < heavy_ball_slot + 1; i++) {
-                // Distance between delivery position and slot is 1 + heavy_ball_slot
-                rlink.ac->goto_right_mark();
-            }
-
-            // Release ball
-            rlink.ac->extend();
-            rlink.ac->release();
-            rlink.ac->contract();
-
-            // TODO: extend to drop at 1st DR?
-        }
-    }
+	// Pick the 1st heavy ball (if existing) and deliver it
+    rlink.drop_a_heavy_ball_to_the_right();
 
     // 1st DR done
 
@@ -213,44 +181,8 @@ int start() {
     rlink.mc->stop();
     delay(alignment_delay);
 
-    // Sub-routine: collect and drop ball
-    // If ball 2 or 4 is here, drop one to the right, arm extended
-    {  // scope for heavy_ball_slot
-        int heavy_ball_slot = -1;
-        for (int i = 0; i < 3; i++) {
-            if (ball_slots[i] == 2 || ball_slots[i] == 4) {
-                heavy_ball_slot = i;  // 1st heavy ball
-                ball_slots[i] = -1;   // Clear ball slot
-                break;
-            }
-        }
-
-        if (heavy_ball_slot >= 0) {  // Has heavy ball(s), deliver 1st heavy ball
-            // Go to 1st heavy ball
-            for (int i = 0; i < heavy_ball_slot + 1; i++) {
-                // Distance between delivery position and slot is 1 + heavy_ball_slot
-                rlink.ac->goto_right_mark();
-            }
-
-            // Grab ball
-            rlink.ac->extend();
-            rlink.ac->grab();
-            rlink.ac->contract();
-
-            // Go back to delivery position
-            for (int i = 0; i < heavy_ball_slot + 1; i++) {
-                // Distance between delivery position and slot is 1 + heavy_ball_slot
-                rlink.ac->goto_right_mark();
-            }
-
-            // Release ball
-            rlink.ac->extend();
-            rlink.ac->release();
-            rlink.ac->contract();
-
-            // TODO: extend to drop at 1st DR?
-        }
-    }
+    // Pick the 1st heavy ball (if existing) and deliver it
+    rlink.drop_a_heavy_ball_to_the_right();
 
     // Move to collect third ball
     rlink.ac->contract();
